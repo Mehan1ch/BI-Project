@@ -1,0 +1,4 @@
+ploomber
+mysql-connector-python
+plotly
+dash
