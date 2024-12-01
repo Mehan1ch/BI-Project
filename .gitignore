@@ -11,3 +11,6 @@ venv/
 
 # Ploomber output
 /ETL/Extract/Output/*
+
+# Metadata files
+*.metadata
