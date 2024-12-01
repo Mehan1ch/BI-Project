@@ -1,5 +1,6 @@
 kaggle
 ploomber
+pandas
 mysql-connector-python
 plotly
 dash

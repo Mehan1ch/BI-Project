@@ -1,39 +1,23 @@
 executor: parallel
 tasks:
-  - source: './Extract/Input/extract_coffee_distribution.py'
-    name: extract_coffee_distribution
+  - source: ./Extract/Input/extract.py
+    name: extract
     product:
-      nb: ./Extract/Output/extract_coffee_distribution.ipynb
-      data1: '{{data_path}}/coffee-distribution-across-94-counties/psd_coffee.csv'
-      data2: '{{data_path}}/coffee-distribution-across-94-counties/psd_coffee.xls'
+      nb: ./Extract/Output/extract.ipynb
+      data1: '{{extract_path}}/coffee-distribution-across-94-counties/psd_coffee.csv'
+      data2: '{{extract_path}}/coffee-distribution-across-94-counties/psd_coffee.xls'
+      data3: '{{extract_path}}/coffee-quality-data-cqi/df_arabica_clean.csv'
+      data4: '{{extract_path}}/coffee-reviews-dataset/coffee_analysis.csv'
+      data5: '{{extract_path}}/coffee-reviews-dataset/simplified_coffee.csv'
+      data6: '{{extract_path}}/coffee-sales/index.csv'
+      data7: '{{extract_path}}/coffee-shop-sales-dataset/Coffee Shop Sales.xlsx'
     params:
-      data_path: '{{data_path}}'
-  - source: ./Extract/Input/extract_coffee_quality_data_cqi.py
-    name: extract_coffee_quality_data_cqi
+      extract_path: '{{extract_path}}'
+  - source: ./Transform/Input/clean_coffee_distribution.py
+    name: clean_distribution
     product:
-      nb: ./Extract/Output/extract_coffee_quality_data_cqi.ipynb
-      data: '{{data_path}}/coffee-quality-data-cqi/df_arabica_clean.csv'
+      nb: ./Transform/Output/clean_coffee_distribution.ipynb
+      data: '{{transform_path}}/cleaned_coffee_distribution.csv'
     params:
-      data_path: '{{data_path}}'
-  - source: ./Extract/Input/extract_coffee_reviews_dataset.py
-    name: extract_coffee_reviews_dataset
-    product:
-      nb: ./Extract/Output/extract_coffee_reviews_dataset.ipynb
-      data1: '{{data_path}}/coffee-reviews-dataset/coffee_analysis.csv'
-      data2: '{{data_path}}/coffee-reviews-dataset/simplified_coffee.csv'
-    params:
-      data_path: '{{data_path}}'
-  - source: ./Extract/Input/extract_coffee_sales.py
-    name: extract_coffee_sales
-    product:
-      nb: ./Extract/Output/extract_coffee_sales.ipynb
-      data: '{{data_path}}/coffee-sales/index.csv'
-    params:
-      data_path: '{{data_path}}'
-  - source: ./Extract/Input/extract_coffee_shop_sales_dataset.py
-    name: extract_coffee_shop_sales_dataset
-    product:
-      nb: ./Extract/Output/extract_coffee_shop_sales_dataset.ipynb
-      data: '{{data_path}}/coffee-shop-sales-dataset/Coffee Shop Sales.xlsx'
-    params:
-      data_path: '{{data_path}}'
+      extract_path: '{{extract_path}}'
+      transform_path: '{{transform_path}}'
