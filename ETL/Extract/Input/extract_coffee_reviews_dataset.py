@@ -23,4 +23,4 @@ if not os.path.exists(data_path):
     os.makedirs(data_path)
 
 # Download latest version
-kaggle.api.dataset_download_files('schmoyote/coffee-reviews-dataset', path=data_path+"/coffe-reviews-dataset/", unzip=True)
+kaggle.api.dataset_download_files('schmoyote/coffee-reviews-dataset', path=data_path+"/coffee-reviews-dataset/", unzip=True)

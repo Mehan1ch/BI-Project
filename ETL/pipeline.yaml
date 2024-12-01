@@ -1,32 +1,39 @@
 executor: parallel
 tasks:
-  - source: ./Extract/Input/extract_coffee_distribution.py
+  - source: './Extract/Input/extract_coffee_distribution.py'
     name: extract_coffee_distribution
     product:
       nb: ./Extract/Output/extract_coffee_distribution.ipynb
+      data1: '{{data_path}}/coffee-distribution-across-94-counties/psd_coffee.csv'
+      data2: '{{data_path}}/coffee-distribution-across-94-counties/psd_coffee.xls'
     params:
       data_path: '{{data_path}}'
   - source: ./Extract/Input/extract_coffee_quality_data_cqi.py
     name: extract_coffee_quality_data_cqi
     product:
       nb: ./Extract/Output/extract_coffee_quality_data_cqi.ipynb
+      data: '{{data_path}}/coffee-quality-data-cqi/df_arabica_clean.csv'
     params:
       data_path: '{{data_path}}'
   - source: ./Extract/Input/extract_coffee_reviews_dataset.py
     name: extract_coffee_reviews_dataset
     product:
       nb: ./Extract/Output/extract_coffee_reviews_dataset.ipynb
+      data1: '{{data_path}}/coffee-reviews-dataset/coffee_analysis.csv'
+      data2: '{{data_path}}/coffee-reviews-dataset/simplified_coffee.csv'
     params:
       data_path: '{{data_path}}'
   - source: ./Extract/Input/extract_coffee_sales.py
     name: extract_coffee_sales
     product:
       nb: ./Extract/Output/extract_coffee_sales.ipynb
+      data: '{{data_path}}/coffee-sales/index.csv'
     params:
       data_path: '{{data_path}}'
   - source: ./Extract/Input/extract_coffee_shop_sales_dataset.py
     name: extract_coffee_shop_sales_dataset
     product:
       nb: ./Extract/Output/extract_coffee_shop_sales_dataset.ipynb
+      data: '{{data_path}}/coffee-shop-sales-dataset/Coffee Shop Sales.xlsx'
     params:
       data_path: '{{data_path}}'
