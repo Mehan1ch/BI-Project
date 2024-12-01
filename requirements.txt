@@ -1,5 +1,6 @@
-kagglehub
+kaggle
 ploomber
 mysql-connector-python
 plotly
 dash
+python-dotenv

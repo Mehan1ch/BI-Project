@@ -1,1 +1,7 @@
+# Environment variables
 .env
+
+# Raw data files
+*.csv
+*.xlsx
+*.xls
