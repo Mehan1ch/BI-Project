@@ -1,5 +1,6 @@
 kaggle
 ploomber
+openpyxl
 pandas
 mysql-connector-python
 plotly

@@ -21,3 +21,35 @@ tasks:
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/clean_quality.py
+    name: clean_quality
+    product:
+      nb: ./Transform/Output/clean_quality.ipynb
+      data: '{{transform_path}}/clean_quality.csv'
+    params:
+      extract_path: '{{extract_path}}'
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/clean_reviews.py
+    name: clean_reviews
+    product:
+      nb: ./Transform/Output/clean_reviews.ipynb
+      data: '{{transform_path}}/clean_reviews.csv'
+    params:
+      extract_path: '{{extract_path}}'
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/clean_sales.py
+    name: clean_sales
+    product:
+      nb: ./Transform/Output/clean_sales.ipynb
+      data: '{{transform_path}}/clean_sales.csv'
+    params:
+      extract_path: '{{extract_path}}'
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/clean_shop_sales.py
+    name: clean_shop_sales
+    product:
+      nb: ./Transform/Output/clean_shop_sales.ipynb
+      data: '{{transform_path}}/clean_shop_sales.csv'
+    params:
+      extract_path: '{{extract_path}}'
+      transform_path: '{{transform_path}}'
