@@ -5,3 +5,9 @@
 *.csv
 *.xlsx
 *.xls
+
+# Virtual environment
+venv/
+
+# Ploomber output
+/ETL/Extract/Output/*
