@@ -4,20 +4,20 @@ tasks:
     name: extract
     product:
       nb: ./Extract/Output/extract.ipynb
-      data1: '{{extract_path}}/coffee-distribution-across-94-counties/psd_coffee.csv'
-      data2: '{{extract_path}}/coffee-distribution-across-94-counties/psd_coffee.xls'
-      data3: '{{extract_path}}/coffee-quality-data-cqi/df_arabica_clean.csv'
-      data4: '{{extract_path}}/coffee-reviews-dataset/coffee_analysis.csv'
-      data5: '{{extract_path}}/coffee-reviews-dataset/simplified_coffee.csv'
-      data6: '{{extract_path}}/coffee-sales/index.csv'
-      data7: '{{extract_path}}/coffee-shop-sales-dataset/Coffee Shop Sales.xlsx'
+      data1: '{{extract_path}}/distribution/psd_coffee.csv'
+      data2: '{{extract_path}}/distribution/psd_coffee.xls'
+      data3: '{{extract_path}}/quality/df_arabica_clean.csv'
+      data4: '{{extract_path}}/reviews/coffee_analysis.csv'
+      data5: '{{extract_path}}/reviews/simplified_coffee.csv'
+      data6: '{{extract_path}}/sales/index.csv'
+      data7: '{{extract_path}}/shop-sales/Coffee Shop Sales.xlsx'
     params:
       extract_path: '{{extract_path}}'
-  - source: ./Transform/Input/clean_coffee_distribution.py
+  - source: ./Transform/Input/clean_distribution.py
     name: clean_distribution
     product:
-      nb: ./Transform/Output/clean_coffee_distribution.ipynb
-      data: '{{transform_path}}/cleaned_coffee_distribution.csv'
+      nb: ./Transform/Output/clean_distribution.ipynb
+      data: '{{transform_path}}/clean_distribution.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
