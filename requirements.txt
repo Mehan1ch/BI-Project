@@ -5,4 +5,5 @@ pandas
 mysql-connector-python
 plotly
 dash
+dash-mantine-components
 python-dotenv

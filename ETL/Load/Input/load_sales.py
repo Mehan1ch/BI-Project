@@ -17,13 +17,13 @@ load_dotenv()
 db_config = {
     'user': os.getenv('MYSQL_USER'),
     'password': os.getenv('MYSQL_PASSWORD'),
-    'host': '127.0.0.1',  # TODO: Change this to the container when running in docker
+    'host': 'db',  # '127.0.0.1',
     'database': os.getenv('MYSQL_DATABASE'),
     'raise_on_warnings': True
 }
 
 # Load the CSV file into a DataFrame
-df = pd.read_csv(transform_path+'Migrations/create_sales.csv')
+df = pd.read_csv(transform_path + 'Migrations/create_sales.csv')
 
 # Convert data types if necessary
 df = df.astype({
