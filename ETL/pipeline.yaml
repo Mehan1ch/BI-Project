@@ -13,43 +13,43 @@ tasks:
       data7: '{{extract_path}}/shop-sales/Coffee Shop Sales.xlsx'
     params:
       extract_path: '{{extract_path}}'
-  - source: ./Transform/Input/clean_distribution.py
+  - source: ./Transform/Input/Clean/clean_distribution.py
     name: clean_distribution
     product:
-      nb: ./Transform/Output/clean_distribution.ipynb
-      data: '{{transform_path}}/clean_distribution.csv'
+      nb: ./Transform/Output/Clean/clean_distribution.ipynb
+      data: '{{transform_path}}/Clean/clean_distribution.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/clean_quality.py
+  - source: ./Transform/Input/Clean/clean_quality.py
     name: clean_quality
     product:
-      nb: ./Transform/Output/clean_quality.ipynb
-      data: '{{transform_path}}/clean_quality.csv'
+      nb: ./Transform/Output/Clean/clean_quality.ipynb
+      data: '{{transform_path}}/Clean/clean_quality.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/clean_reviews.py
+  - source: ./Transform/Input/Clean/clean_reviews.py
     name: clean_reviews
     product:
-      nb: ./Transform/Output/clean_reviews.ipynb
-      data: '{{transform_path}}/clean_reviews.csv'
+      nb: ./Transform/Output/Clean/clean_reviews.ipynb
+      data: '{{transform_path}}/Clean/clean_reviews.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/clean_sales.py
+  - source: ./Transform/Input/Clean/clean_sales.py
     name: clean_sales
     product:
-      nb: ./Transform/Output/clean_sales.ipynb
-      data: '{{transform_path}}/clean_sales.csv'
+      nb: ./Transform/Output/Clean/clean_sales.ipynb
+      data: '{{transform_path}}/Clean/clean_sales.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/clean_shop_sales.py
+  - source: ./Transform/Input/Clean/clean_shop_sales.py
     name: clean_shop_sales
     product:
-      nb: ./Transform/Output/clean_shop_sales.ipynb
-      data: '{{transform_path}}/clean_shop_sales.csv'
+      nb: ./Transform/Output/Clean/clean_shop_sales.ipynb
+      data: '{{transform_path}}/Clean/clean_shop_sales.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
