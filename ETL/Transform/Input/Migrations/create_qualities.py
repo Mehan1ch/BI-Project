@@ -35,11 +35,11 @@ def create_qualities_table(qualities: pandas.DataFrame, companies: pandas.DataFr
     processing_method_dict = dict(zip(processing_methods['name'], processing_methods['id']))
 
     # Map the composite keys in the reviews DataFrame to their respective IDs
-    qualities['farm_id'] = qualities['farms_composite_key'].map(farm_dict)
-    qualities['company_id'] = qualities['company'].map(company_dict)
-    qualities['country_id'] = qualities['country'].map(country_dict)
-    qualities['variety_id'] = qualities['variety'].map(variety_dict)
-    qualities['processing_method_id'] = qualities['processing_method'].map(processing_method_dict)
+    qualities['farm_id'] = qualities['farms_composite_key'].map(farm_dict).fillna(0).astype(int)
+    qualities['company_id'] = qualities['company'].map(company_dict).fillna(0).astype(int)
+    qualities['country_id'] = qualities['country'].map(country_dict).fillna(0).astype(int)
+    qualities['variety_id'] = qualities['variety'].map(variety_dict).fillna(0).astype(int)
+    qualities['processing_method_id'] = qualities['processing_method'].map(processing_method_dict).fillna(0).astype(int)
 
     # Extract the required columns
     qualities['id'] = qualities.index

@@ -36,11 +36,11 @@ def create_sales_table(sales: pandas.DataFrame, shop_sales: pandas.DataFrame,
     sales['drink_id'] = sales['drinks_composite_key'].map(drink_dict)
     shop_sales['drink_id'] = shop_sales['drinks_composite_key'].map(drink_dict)
 
-    # Append the shop_sales to sales
-    sales = pandas.concat([sales, shop_sales])
-
     # Remove the transaction_id column
-    sales.drop('transaction_id', axis=1, inplace=True)
+    shop_sales.drop('transaction_id', axis=1, inplace=True)
+
+    # Append the shop_sales to sales
+    sales = pandas.concat([sales, shop_sales]).reset_index(drop=True)
 
     # Extract the required columns
     sales['id'] = sales.index

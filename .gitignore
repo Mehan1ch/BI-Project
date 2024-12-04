@@ -10,8 +10,8 @@
 venv/
 
 # Ploomber output
-/ETL/Extract/Output/*
-/ETL/Transform/Output/*
+*.ipynb
+Data/*
 
 # Metadata files
 *.metadata

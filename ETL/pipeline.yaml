@@ -85,7 +85,7 @@ tasks:
     name: create_distributions
     product:
       nb: ./Transform/Output/Migrations/create_distributions.ipynb
-      data: '{{transform_path}}/Migrations/create_distribution.csv'
+      data: '{{transform_path}}/Migrations/create_distributions.csv'
     params:
       transform_path: '{{transform_path}}'
   - source: ./Transform/Input/Migrations/create_farms.py
@@ -135,5 +135,77 @@ tasks:
     product:
       nb: ./Transform/Output/Migrations/create_sales.ipynb
       data: '{{transform_path}}/Migrations/create_sales.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_countries.py
+    name: load_countries
+    product:
+      nb: ./Load/Output/load_countries.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_roasters.py
+    name: load_roasters
+    product:
+      nb: ./Load/Output/load_roasters.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_blends.py
+    name: load_blends
+    product:
+      nb: ./Load/Output/load_blends.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_reviews.py
+    name: load_reviews
+    product:
+      nb: ./Load/Output/load_reviews.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_distributions.py
+    name: load_distributions
+    product:
+      nb: ./Load/Output/load_distributions.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_farms.py
+    name: load_farms
+    product:
+      nb: ./Load/Output/load_farms.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_varieties.py
+    name: load_varieties
+    product:
+      nb: ./Load/Output/load_varieties.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_processing_methods.py
+    name: load_processing_methods
+    product:
+      nb: ./Load/Output/load_processing_methods.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_companies.py
+    name: load_companies
+    product:
+      nb: ./Load/Output/load_companies.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_qualities.py
+    name: load_qualities
+    product:
+      nb: ./Load/Output/load_qualities.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_drinks.py
+    name: load_drinks
+    product:
+      nb: ./Load/Output/load_drinks.ipynb
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Load/Input/load_sales.py
+    name: load_sales
+    product:
+      nb: ./Load/Output/load_sales.ipynb
     params:
       transform_path: '{{transform_path}}'
