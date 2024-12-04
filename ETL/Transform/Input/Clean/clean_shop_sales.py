@@ -1,17 +1,15 @@
 # %% tags=["parameters"]
-import pandas
-
 upstream = ['extract']
 product = None
 extract_path = None
 transform_path = None
 
 # %%
-import pandas as pd
+import pandas
 
 
 def load_xlsx(input_path: str, sheet_name: str) -> pandas.DataFrame:
-    return pd.read_excel(input_path, sheet_name=sheet_name)
+    return pandas.read_excel(input_path, sheet_name=sheet_name)
 
 
 def remove_unnecessary_columns(dataframe: pandas.DataFrame, columns: [str]) -> pandas.DataFrame:
@@ -71,7 +69,34 @@ def change_time_to_datetime(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     # Concatenate the transaction_date and transaction_time columns row-wise
     dataframe['transaction_time'] = dataframe['transaction_date'].astype(str) + ' ' + dataframe[
         'transaction_time'].astype(str)
-    dataframe['transaction_time'] = pd.to_datetime(dataframe['transaction_time'])
+    dataframe['transaction_time'] = pandas.to_datetime(dataframe['transaction_time'])
+    return dataframe
+
+
+def remove_clothing(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    return dataframe[dataframe['product_category'] != 'Branded']
+
+
+def remove_coffee_beans(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    return dataframe[dataframe['product_category'] != 'Coffee beans']
+
+
+def remove_packaged_chocolate(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    return dataframe[dataframe['product_category'] != 'Packaged Chocolate']
+
+
+def remove_flavours(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    return dataframe[dataframe['product_category'] != 'Flavours']
+
+
+def clean_loose_teas(dataframe: pandas.DataFrame) -> pandas.DataFrame:
+    # Where the product_category is Loose Tea
+    # set the product_category to Tea, the product_type to the first word of the product_type and the detail to '-'
+    loose_tea_rows = dataframe.loc[dataframe['product_category'] == 'Loose Tea']
+    loose_tea_rows['product_category'] = 'Tea'
+    loose_tea_rows['product_type'] = loose_tea_rows['product_type'].str.split(' ').str[0]
+    loose_tea_rows['product_detail'] = '-'
+    dataframe.update(loose_tea_rows)
     return dataframe
 
 
@@ -86,8 +111,13 @@ file_path = extract_path + '/shop-sales/Coffee Shop Sales.xlsx'
 df = load_xlsx(file_path, 'Transactions')
 df = remove_unnecessary_columns(df, columns_to_remove)
 df = remove_bakery(df)
+df = remove_clothing(df)
+df = remove_coffee_beans(df)
+df = remove_packaged_chocolate(df)
+df = remove_flavours(df)
 df = clean_coffee_products(df)
 df = clean_teas(df)
+df = clean_loose_teas(df)
 df = clean_hot_chocolate(df)
 df = change_time_to_datetime(df)
 save_to_csv(df, product['data'])

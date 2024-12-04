@@ -1,13 +1,11 @@
 # %% tags=["parameters"]
-import pandas
-
 upstream = ['extract']
 product = None
 extract_path = None
 transform_path = None
 
 # %%
-import pandas as pd
+import pandas
 
 
 def remove_unnecessary_columns(dataframe: pandas.DataFrame, columns: [str]) -> pandas.DataFrame:
@@ -55,12 +53,16 @@ def shorten_tanzania(dataframe: pandas.DataFrame) -> pandas.DataFrame:
     return dataframe
 
 
+def rename_columns(dataframe: pandas.DataFrame, columns: {str: str}) -> pandas.DataFrame:
+    return dataframe.rename(columns=columns)
+
+
 def save_to_csv(dataframe: pandas.DataFrame, output_path: str) -> None:
     dataframe.to_csv(output_path, index=False)
 
 
 def load_csv(input_path: str) -> pandas.DataFrame:
-    return pd.read_csv(input_path)
+    return pandas.read_csv(input_path)
 
 
 columns_to_remove = ['ID', 'Lot Number', 'Mill', 'ICO Number', 'Region', 'Producer', 'Number of Bags', 'Bag Weight',
@@ -76,4 +78,26 @@ df = remove_hawaii_from_usa(df)
 df = use_second_year_of_harvest(df)
 df = average_altitude(df)
 df = shorten_tanzania(df)
+df = rename_columns(df, {
+    'Unnamed: 0': 'id',
+    'Country of Origin': 'country',
+    'Farm Name': 'farm_name',
+    'Company': 'company',
+    'Altitude': 'altitude',
+    'Harvest Year': 'harvest_year',
+    'Variety': 'variety',
+    'Processing Method': 'processing_method',
+    'Aroma': 'aroma',
+    'Flavor': 'flavor',
+    'Aftertaste': 'aftertaste',
+    'Acidity': 'acidity',
+    'Body': 'body',
+    'Balance': 'balance',
+    'Uniformity': 'uniformity',
+    'Clean Cup': 'clean_cup',
+    'Sweetness': 'sweetness',
+    'Overall': 'overall',
+    'Total Cup Points': 'total_cup_points',
+    'Moisture Percentage': 'moisture_percentage',
+})
 save_to_csv(df, product['data'])

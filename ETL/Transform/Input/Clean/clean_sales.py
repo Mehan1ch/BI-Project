@@ -1,13 +1,11 @@
 # %% tags=["parameters"]
-import pandas
-
 upstream = ['extract']
 product = None
 extract_path = None
 transform_path = None
 
 # %%
-import pandas as pd
+import pandas
 
 
 def remove_unnecessary_columns(dataframe: pandas.DataFrame, columns: [str]) -> pandas.DataFrame:
@@ -24,7 +22,7 @@ def convert_currency_to_usd(dataframe: pandas.DataFrame, currency_column: str,
 
 
 def remove_milliseconds(dataframe: pandas.DataFrame) -> pandas.DataFrame:
-    dataframe['datetime'] = pd.to_datetime(dataframe['datetime']).dt.floor('s')
+    dataframe['datetime'] = pandas.to_datetime(dataframe['datetime']).dt.floor('s')
     return dataframe
 
 
@@ -64,7 +62,7 @@ def save_to_csv(dataframe: pandas.DataFrame, output_path: str) -> None:
 
 
 def load_csv(input_path: str) -> pandas.DataFrame:
-    return pd.read_csv(input_path)
+    return pandas.read_csv(input_path)
 
 
 columns_to_remove = ['card', 'cash_type']
