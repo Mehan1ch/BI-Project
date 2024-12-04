@@ -53,3 +53,87 @@ tasks:
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_countries.py
+    name: create_countries
+    product:
+      nb: ./Transform/Output/Migrations/create_countries.ipynb
+      data: '{{transform_path}}/Migrations/create_countries.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_blends.py
+    name: create_blends
+    product:
+      nb: ./Transform/Output/Migrations/create_blends.ipynb
+      data: '{{transform_path}}/Migrations/create_blends.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_roasters.py
+    name: create_roasters
+    product:
+      nb: ./Transform/Output/Migrations/create_roasters.ipynb
+      data: '{{transform_path}}/Migrations/create_roasters.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_reviews.py
+    name: create_reviews
+    product:
+      nb: ./Transform/Output/Migrations/create_reviews.ipynb
+      data: '{{transform_path}}/Migrations/create_reviews.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_distributions.py
+    name: create_distributions
+    product:
+      nb: ./Transform/Output/Migrations/create_distributions.ipynb
+      data: '{{transform_path}}/Migrations/create_distribution.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_farms.py
+    name: create_farms
+    product:
+      nb: ./Transform/Output/Migrations/create_farms.ipynb
+      data: '{{transform_path}}/Migrations/create_farms.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_companies.py
+    name: create_companies
+    product:
+      nb: ./Transform/Output/Migrations/create_companies.ipynb
+      data: '{{transform_path}}/Migrations/create_companies.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_varieties.py
+    name: create_varieties
+    product:
+      nb: ./Transform/Output/Migrations/create_varieties.ipynb
+      data: '{{transform_path}}/Migrations/create_varieties.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_processing_methods.py
+    name: create_processing_methods
+    product:
+      nb: ./Transform/Output/Migrations/create_processing_methods.ipynb
+      data: '{{transform_path}}/Migrations/create_processing_methods.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_qualities.py
+    name: create_qualities
+    product:
+      nb: ./Transform/Output/Migrations/create_qualities.ipynb
+      data: '{{transform_path}}/Migrations/create_qualities.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_drinks.py
+    name: create_drinks
+    product:
+      nb: ./Transform/Output/Migrations/create_drinks.ipynb
+      data: '{{transform_path}}/Migrations/create_drinks.csv'
+    params:
+      transform_path: '{{transform_path}}'
+  - source: ./Transform/Input/Migrations/create_sales.py
+    name: create_sales
+    product:
+      nb: ./Transform/Output/Migrations/create_sales.ipynb
+      data: '{{transform_path}}/Migrations/create_sales.csv'
+    params:
+      transform_path: '{{transform_path}}'
