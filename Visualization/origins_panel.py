@@ -277,7 +277,7 @@ def update_graph(selected_country):
         df_import_export,
         x='year',
         y=['Bean Exports', 'Roast & Ground Exports', 'Soluble Exports'],
-        labels={'value': 'Amount', 'year': 'Year'},
+        labels={'value': 'Amount', 'year': 'Year', 'variable': 'Type'},
         title='Exports Over Time'
     )
     export_figure.update_layout(
@@ -289,7 +289,7 @@ def update_graph(selected_country):
         df_import_export,
         x='year',
         y=['Bean Imports', 'Roast & Ground Imports', 'Soluble Imports'],
-        labels={'value': 'Amount', 'year': 'Year'},
+        labels={'value': 'Amount', 'year': 'Year', 'variable': 'Type'},
         title='Imports Over Time'
     )
     import_figure.update_layout(

@@ -40,9 +40,20 @@ def fetch_sales_data():
 
 
 def render():
+    df_sales = fetch_sales_data()
+    drink_options = [{'label': drink, 'value': drink} for drink in df_sales['drink_name'].unique()]
+
     return dmc.Container(
         [
             html.H1("Sales Data"),
+            dcc.Dropdown(
+                id='drink-dropdown',
+                options=drink_options,
+                placeholder="Select a drink",
+                style={'width': '50%', 'margin': '0 auto'}
+            ),
+            html.Div(id='kpi-avg-qty', style={'fontSize': 24, 'margin': '10px 0'}),
+            html.Div(id='kpi-avg-profit', style={'fontSize': 24, 'margin': '10px 0'}),
             dmc.Grid(
                 [
                     dmc.GridCol(
@@ -51,7 +62,7 @@ def render():
                             figure={
                                 'data': [],
                                 'layout': {
-                                    'title': 'Relative Quantity Sold Over Time'
+                                    'title': 'Quantity Sold Over Time'
                                 }
                             }
                         ),
@@ -63,7 +74,7 @@ def render():
                             figure={
                                 'data': [],
                                 'layout': {
-                                    'title': 'Relative Profit Made Over Time'
+                                    'title': 'Profit Made Over Time'
                                 }
                             }
                         ),
@@ -79,35 +90,44 @@ def render():
 @callback(
     Output('sales-quantity-graph', 'figure'),
     Output('sales-profit-graph', 'figure'),
-    Input('sales-quantity-graph', 'id')  # Dummy input to trigger the callback
+    Output('kpi-avg-qty', 'children'),
+    Output('kpi-avg-profit', 'children'),
+    Input('drink-dropdown', 'value')
 )
-def update_graph(_):
+def update_graph(selected_drink):
     df_sales = fetch_sales_data()
 
-    # Calculate daily totals
-    daily_totals = df_sales.groupby('transaction_date').agg({'total_qty': 'sum', 'total_profit': 'sum'}).reset_index()
-    df_sales = df_sales.merge(daily_totals, on='transaction_date', suffixes=('', '_daily'))
+    # Calculate KPIs
+    if selected_drink:
+        df_selected_drink = df_sales[df_sales['drink_name'] == selected_drink]
+        avg_qty_per_day = df_selected_drink['total_qty'].mean()
+        avg_daily_profit_selected = df_selected_drink.groupby('transaction_date')['total_profit'].sum().mean()
+    else:
+        avg_qty_per_day = df_sales['total_qty'].mean()
+        avg_daily_profit_selected = 0
 
-    # Calculate relative values
-    df_sales['relative_qty'] = df_sales['total_qty'] / df_sales['total_qty_daily']
-    df_sales['relative_profit'] = df_sales['total_profit'] / df_sales['total_profit_daily']
+    avg_daily_profit_total = df_sales.groupby('transaction_date')['total_profit'].sum().mean()
+    avg_profit_percentage = (avg_daily_profit_selected / avg_daily_profit_total) * 100 if avg_daily_profit_total else 0
+
+    kpi_avg_qty = f"Average Quantity Sold per Day: {avg_qty_per_day:.2f}"
+    kpi_avg_profit = f"Average % of Daily Profit: {avg_profit_percentage:.2f}%"
 
     quantity_figure = px.line(
         df_sales,
         x='transaction_date',
-        y='relative_qty',
+        y='total_qty',
         color='drink_name',
-        labels={'relative_qty': 'Relative Quantity', 'transaction_date': 'Date'},
-        title='Relative Quantity Sold Over Time'
+        labels={'total_qty': 'Quantity', 'transaction_date': 'Date', 'drink_name': 'Drink Name'},
+        title='Quantity Sold Over Time'
     )
 
     profit_figure = px.line(
         df_sales,
         x='transaction_date',
-        y='relative_profit',
+        y='total_profit',
         color='drink_name',
-        labels={'relative_profit': 'Relative Profit', 'transaction_date': 'Date'},
-        title='Relative Profit Made Over Time'
+        labels={'total_profit': 'Profit (USD)', 'transaction_date': 'Date', 'drink_name': 'Drink Name'},
+        title='Profit Made Over Time'
     )
 
-    return quantity_figure, profit_figure
+    return quantity_figure, profit_figure, kpi_avg_qty, kpi_avg_profit
