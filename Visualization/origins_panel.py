@@ -40,22 +40,22 @@ def fetch_data():
 
 def fetch_quality_data(country):
     try:
-        # Connect to the MySQL database using SQLAlchemy
         engine = create_engine(db_url)
-
         query = f"""
         SELECT qualities.harvest_year,
                AVG(qualities.acidity) as acidity,
                AVG(qualities.sweetness) as sweetness,
                AVG(qualities.body) as body,
-               AVG(qualities.aroma) as aroma
+               AVG(qualities.aroma) as aroma,
+               AVG(qualities.clean_cup) as clean_cup,
+               AVG(qualities.balance) as balance,
+               AVG(qualities.flavor) as flavor
         FROM qualities
         JOIN countries ON qualities.country_id = countries.id
         WHERE countries.country = '{country}'
         GROUP BY qualities.harvest_year
         ORDER BY qualities.harvest_year
         """
-
         df = pd.read_sql(query, engine)
         engine.dispose()
         return df
@@ -245,7 +245,10 @@ def update_graph(selected_country):
             {'x': df_quality['harvest_year'], 'y': df_quality['acidity'], 'type': 'line', 'name': 'Acidity'},
             {'x': df_quality['harvest_year'], 'y': df_quality['sweetness'], 'type': 'line', 'name': 'Sweetness'},
             {'x': df_quality['harvest_year'], 'y': df_quality['body'], 'type': 'line', 'name': 'Body'},
-            {'x': df_quality['harvest_year'], 'y': df_quality['aroma'], 'type': 'line', 'name': 'Aroma'}
+            {'x': df_quality['harvest_year'], 'y': df_quality['aroma'], 'type': 'line', 'name': 'Aroma'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['clean_cup'], 'type': 'line', 'name': 'Clean Cup'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['balance'], 'type': 'line', 'name': 'Balance'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['flavor'], 'type': 'line', 'name': 'Flavor'}
         ],
         'layout': {
             'title': 'Quality Over Time',
