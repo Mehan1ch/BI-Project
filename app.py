@@ -14,6 +14,7 @@ app = Dash(external_stylesheets=dmc.styles.ALL, suppress_callback_exceptions=Tru
 app.layout = dmc.MantineProvider(
     html.Div(
         [
+            html.H1("Coffee Dashboard", style={"textAlign": "center", "marginBottom": "20px"}),
             dmc.Affix(
                 dmc.Button(
                     "Refresh Database",
@@ -38,7 +39,7 @@ app.layout = dmc.MantineProvider(
                             ),
                         ],
                     ),
-                    html.Div(id="tabs-content", style={"paddingTop": 10}),
+                    html.Div(id="tabs-content", style={"paddingTop": 5}),
                 ],
                 value="origins",
                 placement="left",

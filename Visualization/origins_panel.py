@@ -69,9 +69,12 @@ def fetch_review_data(country):
         engine = create_engine(db_url)
 
         query = f"""
-        SELECT countries.country as loc_country_id, AVG(reviews.rating) as avg_rating
+        SELECT countries.country as loc_country_id, 
+               AVG(reviews.rating) as avg_rating,
+               AVG(blends.100g_usd) as avg_100g_usd
         FROM reviews
         JOIN countries ON reviews.loc_country_id = countries.id
+        JOIN blends ON reviews.blend_id = blends.id
         WHERE reviews.origin_id = (SELECT id FROM countries WHERE country = '{country}')
         GROUP BY countries.country
         """
@@ -87,20 +90,25 @@ def fetch_review_data(country):
 def render():
     options = fetch_data()
     if len(options) == 0:
-        return html.Div(
+        return dmc.Container(
             [
                 html.H1("Origins Data"),
                 html.P("No data available. Please load data using the refresh button.")
-            ]
+            ],
+            style={'padding': '20px', 'margin': '0 auto', 'maxWidth': '90%'}
         )
-    return html.Div(
+    return dmc.Container(
         [
             html.H1("Origins Data"),
-            dcc.Dropdown(
-                id='origins-dropdown',
-                options=[{'label': name, 'value': name} for name in options],
-                placeholder="Select a country"
+            dmc.Container(
+                dcc.Dropdown(
+                    id='origins-dropdown',
+                    options=[{'label': name, 'value': name} for name in options],
+                    placeholder="Select a country"
+                ),
+                style={'width': '50%', 'margin': '0 auto'}
             ),
+            html.Div(id='kpi-avg-100g-usd', style={'fontSize': 24, 'margin': '10px 0'}),
             dmc.Grid(
                 [
                     dmc.GridCol(
@@ -129,13 +137,15 @@ def render():
                     )
                 ]
             )
-        ]
+        ],
+        style={'padding': '20px', 'margin': '0 auto', 'maxWidth': '90%'}
     )
 
 
 @callback(
     Output('quality-graph', 'figure'),
     Output('review-map', 'figure'),
+    Output('kpi-avg-100g-usd', 'children'),
     Input('origins-dropdown', 'value')
 )
 def update_graph(selected_country):
@@ -143,14 +153,18 @@ def update_graph(selected_country):
         return {
             'data': [],
             'layout': {
-                'title': 'Quality Over Time'
+                'title': 'Quality Over Time',
+                'margin': {'l': 40, 'r': 40, 't': 40, 'b': 40},
+                'xaxis': {'title': 'Year'},
+                'yaxis': {'title': 'Quality Score'}
             }
         }, {
             'data': [],
             'layout': {
-                'title': 'Average Reviews by Location'
+                'title': 'Average Reviews by Location',
+                'margin': {'l': 40, 'r': 40, 't': 40, 'b': 40}
             }
-        }
+        }, "Average 100g USD: N/A"
 
     df_quality = fetch_quality_data(selected_country)
     df_reviews = fetch_review_data(selected_country)
@@ -164,7 +178,9 @@ def update_graph(selected_country):
         ],
         'layout': {
             'title': 'Quality Over Time',
-            'yaxis': {'range': [5, 10]}
+            'margin': {'l': 40, 'r': 40, 't': 40, 'b': 40},
+            'xaxis': {'title': 'Year'},
+            'yaxis': {'title': 'Quality Score', 'range': [5, 10]}
         }
     }
 
@@ -179,5 +195,11 @@ def update_graph(selected_country):
         projection="natural earth",
         title="Average Reviews by Location"
     )
+    review_figure.update_layout(
+        margin={'l': 40, 'r': 40, 't': 40, 'b': 40}
+    )
 
-    return quality_figure, review_figure
+    avg_100g_usd = df_reviews['avg_100g_usd'].iloc[0] if not df_reviews.empty else "N/A"
+    kpi_text = f"Average 100g USD: {avg_100g_usd:.2f}" if avg_100g_usd != "N/A" else "Average 100g USD: N/A"
+
+    return quality_figure, review_figure, kpi_text
