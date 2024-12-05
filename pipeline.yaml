@@ -134,7 +134,8 @@ tasks:
     name: create_sales
     product:
       nb: ./ETL/Transform/Output/Migrations/create_sales.ipynb
-      data: '{{transform_path}}/Migrations/create_sales.csv'
+      sales_data: '{{transform_path}}/Migrations/create_sales.csv'
+      shop_sales_data: '{{transform_path}}/Migrations/create_shop_sales.csv'
     params:
       transform_path: '{{transform_path}}'
   - source: ./ETL/Load/Input/load_countries.py

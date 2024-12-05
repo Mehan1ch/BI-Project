@@ -20,15 +20,15 @@ def fetch_sales_data():
 
         query = """
         SELECT
-            sales.transaction_date,
+            shop_sales.transaction_date,
             drinks.type AS drink_name,
-            SUM(sales.transaction_qty) AS total_qty,
-            SUM(sales.transaction_qty * drinks.price) AS total_profit
-        FROM sales
-        JOIN drinks ON sales.drink_id = drinks.id
+            SUM(shop_sales.transaction_qty) AS total_qty,
+            SUM(shop_sales.transaction_qty * drinks.price) AS total_profit
+        FROM shop_sales
+        JOIN drinks ON shop_sales.drink_id = drinks.id
         WHERE drinks.category = 'Coffee'
-        GROUP BY sales.transaction_date, drinks.type
-        ORDER BY sales.transaction_date
+        GROUP BY shop_sales.transaction_date, drinks.type
+        ORDER BY shop_sales.transaction_date
         """
 
         df = pd.read_sql(query, engine)
