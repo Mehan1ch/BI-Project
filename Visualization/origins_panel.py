@@ -1,5 +1,6 @@
 from dash import html, dcc, Input, Output, callback
 from sqlalchemy import create_engine
+import dash_mantine_components as dmc
 import plotly.express as px
 import pandas as pd
 from dotenv import load_dotenv
@@ -42,10 +43,15 @@ def fetch_quality_data(country):
         engine = create_engine(db_url)
 
         query = f"""
-        SELECT qualities.harvest_year, qualities.acidity, qualities.sweetness, qualities.body, qualities.aroma
+        SELECT qualities.harvest_year, 
+               AVG(qualities.acidity) as acidity, 
+               AVG(qualities.sweetness) as sweetness, 
+               AVG(qualities.body) as body, 
+               AVG(qualities.aroma) as aroma
         FROM qualities
         JOIN countries ON qualities.country_id = countries.id
         WHERE countries.country = '{country}'
+        GROUP BY qualities.harvest_year
         ORDER BY qualities.harvest_year
         """
 
@@ -95,23 +101,33 @@ def render():
                 options=[{'label': name, 'value': name} for name in options],
                 placeholder="Select a country"
             ),
-            dcc.Graph(
-                id='quality-graph',
-                figure={
-                    'data': [],
-                    'layout': {
-                        'title': 'Quality Over Time'
-                    }
-                }
-            ),
-            dcc.Graph(
-                id='review-map',
-                figure={
-                    'data': [],
-                    'layout': {
-                        'title': 'Average Reviews by Location'
-                    }
-                }
+            dmc.Grid(
+                [
+                    dmc.GridCol(
+                        dcc.Graph(
+                            id='quality-graph',
+                            figure={
+                                'data': [],
+                                'layout': {
+                                    'title': 'Quality Over Time'
+                                }
+                            }
+                        ),
+                        span=6
+                    ),
+                    dmc.GridCol(
+                        dcc.Graph(
+                            id='review-map',
+                            figure={
+                                'data': [],
+                                'layout': {
+                                    'title': 'Average Reviews by Location'
+                                }
+                            }
+                        ),
+                        span=6
+                    )
+                ]
             )
         ]
     )
@@ -147,17 +163,19 @@ def update_graph(selected_country):
             {'x': df_quality['harvest_year'], 'y': df_quality['aroma'], 'type': 'line', 'name': 'Aroma'}
         ],
         'layout': {
-            'title': 'Quality Over Time'
+            'title': 'Quality Over Time',
+            'yaxis': {'range': [5, 10]}
         }
     }
 
-    review_figure = px.scatter_geo(
+    review_figure = px.choropleth(
         df_reviews,
         locations="loc_country_id",
         locationmode="country names",
         color="avg_rating",
         hover_name="loc_country_id",
-        size="avg_rating",
+        hover_data={"avg_rating": True},
+        labels={"loc_country_id": "Country ID", "avg_rating": "Average Rating"},
         projection="natural earth",
         title="Average Reviews by Location"
     )
