@@ -1,9 +1,9 @@
 from dash import html, dcc, Input, Output, callback
 from sqlalchemy import create_engine
+import plotly.express as px
 import pandas as pd
 from dotenv import load_dotenv
 import os
-import plotly.express as px
 
 # Load environment variables from .env file
 load_dotenv()
@@ -57,9 +57,30 @@ def fetch_quality_data(country):
         return pd.DataFrame()
 
 
+def fetch_review_data(country):
+    try:
+        # Connect to the MySQL database using SQLAlchemy
+        engine = create_engine(db_url)
+
+        query = f"""
+        SELECT countries.country as loc_country_id, AVG(reviews.rating) as avg_rating
+        FROM reviews
+        JOIN countries ON reviews.loc_country_id = countries.id
+        WHERE reviews.origin_id = (SELECT id FROM countries WHERE country = '{country}')
+        GROUP BY countries.country
+        """
+
+        df = pd.read_sql(query, engine)
+        engine.dispose()
+        return df
+    except Exception as err:
+        print(f"Error: {err}")
+        return pd.DataFrame()
+
+
 def render():
     options = fetch_data()
-    if options.size == 0:
+    if len(options) == 0:
         return html.Div(
             [
                 html.H1("Origins Data"),
@@ -74,24 +95,71 @@ def render():
                 options=[{'label': name, 'value': name} for name in options],
                 placeholder="Select a country"
             ),
-            dcc.Graph(id='quality-graph')
+            dcc.Graph(
+                id='quality-graph',
+                figure={
+                    'data': [],
+                    'layout': {
+                        'title': 'Quality Over Time'
+                    }
+                }
+            ),
+            dcc.Graph(
+                id='review-map',
+                figure={
+                    'data': [],
+                    'layout': {
+                        'title': 'Average Reviews by Location'
+                    }
+                }
+            )
         ]
     )
 
 
 @callback(
     Output('quality-graph', 'figure'),
+    Output('review-map', 'figure'),
     Input('origins-dropdown', 'value')
 )
 def update_graph(selected_country):
     if selected_country is None:
-        return {}
+        return {
+            'data': [],
+            'layout': {
+                'title': 'Quality Over Time'
+            }
+        }, {
+            'data': [],
+            'layout': {
+                'title': 'Average Reviews by Location'
+            }
+        }
 
-    df = fetch_quality_data(selected_country)
-    if df.empty:
-        return {}
+    df_quality = fetch_quality_data(selected_country)
+    df_reviews = fetch_review_data(selected_country)
 
-    fig = px.line(df, x='harvest_year', y=['acidity', 'sweetness', 'body', 'aroma'],
-                  labels={'value': 'Quality Metrics', 'variable': 'Metrics', 'harvest_year': 'Harvest Year'},
-                  title=f'Quality Metrics Over Time for {selected_country}')
-    return fig
+    quality_figure = {
+        'data': [
+            {'x': df_quality['harvest_year'], 'y': df_quality['acidity'], 'type': 'line', 'name': 'Acidity'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['sweetness'], 'type': 'line', 'name': 'Sweetness'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['body'], 'type': 'line', 'name': 'Body'},
+            {'x': df_quality['harvest_year'], 'y': df_quality['aroma'], 'type': 'line', 'name': 'Aroma'}
+        ],
+        'layout': {
+            'title': 'Quality Over Time'
+        }
+    }
+
+    review_figure = px.scatter_geo(
+        df_reviews,
+        locations="loc_country_id",
+        locationmode="country names",
+        color="avg_rating",
+        hover_name="loc_country_id",
+        size="avg_rating",
+        projection="natural earth",
+        title="Average Reviews by Location"
+    )
+
+    return quality_figure, review_figure

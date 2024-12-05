@@ -9,7 +9,7 @@ from Visualization.origins_panel import render as render_origins
 from Visualization.sales_panel import render as render_sales
 
 _dash_renderer._set_react_version("18.2.0")
-app = Dash(external_stylesheets=dmc.styles.ALL)
+app = Dash(external_stylesheets=dmc.styles.ALL, suppress_callback_exceptions=True)
 
 app.layout = dmc.MantineProvider(
     html.Div(
