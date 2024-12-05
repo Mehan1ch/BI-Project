@@ -39,6 +39,14 @@ def fetch_sales_data():
 
 def render():
     df_sales = fetch_sales_data()
+    if len(df_sales) == 0:
+        return dmc.Container(
+            [
+                html.H1("Sales Data"),
+                html.P("No data available. Please load data using the refresh button.")
+            ],
+            style={'padding': '20px', 'margin': '0 auto', 'maxWidth': '90%'}
+        )
     df_coffee = df_sales[df_sales['drink_category'] == 'Coffee']
     drink_options = [{'label': drink, 'value': drink} for drink in df_coffee['drink_name'].unique()]
 
