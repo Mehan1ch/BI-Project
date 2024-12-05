@@ -14,37 +14,44 @@ app = Dash(external_stylesheets=dmc.styles.ALL, suppress_callback_exceptions=Tru
 app.layout = dmc.MantineProvider(
     html.Div(
         [
-            html.H1("Coffee Dashboard", style={"textAlign": "center", "marginBottom": "20px"}),
-            dmc.Affix(
-                dmc.Button(
-                    "Refresh Database",
-                    id="loading-button",
-                    leftSection=DashIconify(icon="fluent:database-plug-connected-20-filled"),
+            dmc.Paper(
+                html.Div(
+                    [
+                        html.H1("Coffee Dashboard", style={"textAlign": "center", "marginBottom": "20px"}),
+                        dmc.Affix(
+                            dmc.Button(
+                                "Refresh Database",
+                                id="loading-button",
+                                leftSection=DashIconify(icon="fluent:database-plug-connected-20-filled"),
+                            ),
+                            position={"top": 20, "right": 20}
+                        ),
+                        dmc.Tabs(
+                            [
+                                dmc.TabsList(
+                                    [
+                                        dmc.TabsTab(
+                                            "Origins",
+                                            leftSection=DashIconify(icon="mdi:location-radius"),
+                                            value="origins",
+                                        ),
+                                        dmc.TabsTab(
+                                            "Sales",
+                                            leftSection=DashIconify(icon="mdi:coffee"),
+                                            value="sales",
+                                        ),
+                                    ],
+                                ),
+                                html.Div(id="tabs-content", style={"paddingTop": 5}),
+                            ],
+                            value="origins",
+                            placement="left",
+                            id="tabs-component"
+                        )
+                    ]
                 ),
-                position={"top": 20, "right": 20}
             ),
-            dmc.Tabs(
-                [
-                    dmc.TabsList(
-                        [
-                            dmc.TabsTab(
-                                "Origins",
-                                leftSection=DashIconify(icon="mdi:location-radius"),
-                                value="origins",
-                            ),
-                            dmc.TabsTab(
-                                "Sales",
-                                leftSection=DashIconify(icon="mdi:coffee"),
-                                value="sales",
-                            ),
-                        ],
-                    ),
-                    html.Div(id="tabs-content", style={"paddingTop": 5}),
-                ],
-                value="origins",
-                placement="left",
-                id="tabs-component"
-            )
+            html.Div(id="main-content", style={"padding": "20px"})
         ]
     )
 )
@@ -84,7 +91,7 @@ def refresh_data(n_clicks):
 def render_content(value, loading):
     if value == "origins":
         if loading:
-            return dmc.Loader(color="red", size="md", variant="oval")
+            return dmc.Loader(color="blue", size="md", variant="oval")
         else:
             return render_origins()
     elif value == "sales":
