@@ -21,11 +21,12 @@ def fetch_sales_data():
             shop_sales.transaction_date,
             drinks.type AS drink_name,
             drinks.category AS drink_category,
+            drinks.detail AS drink_detail,
             SUM(shop_sales.transaction_qty) AS total_qty,
             SUM(shop_sales.transaction_qty * drinks.price) AS total_profit
         FROM shop_sales
         JOIN drinks ON shop_sales.drink_id = drinks.id
-        GROUP BY shop_sales.transaction_date, drinks.type, drinks.category
+        GROUP BY shop_sales.transaction_date, drinks.type, drinks.category, drinks.detail
         ORDER BY shop_sales.transaction_date
         """
         df = pd.read_sql(query, engine)
@@ -95,6 +96,22 @@ def render():
                         span=12
                     )
                 ]
+            ),
+            dmc.Grid(
+                [
+                    dmc.GridCol(
+                        dcc.Graph(
+                            id='brew-coffee-detail-graph',
+                            figure={
+                                'data': [],
+                                'layout': {
+                                    'title': 'Brew Coffee Detail Amounts'
+                                }
+                            }
+                        ),
+                        span=12
+                    )
+                ]
             )
         ],
         style={'padding': '20px', 'margin': '0 auto', 'maxWidth': '90%'}
@@ -105,6 +122,7 @@ def render():
     Output('sales-quantity-graph', 'figure'),
     Output('sales-profit-graph', 'figure'),
     Output('sales-category-graph', 'figure'),
+    Output('brew-coffee-detail-graph', 'figure'),
     Output('kpi-avg-qty', 'children'),
     Output('kpi-avg-profit', 'children'),
     Input('drink-dropdown', 'value')
@@ -157,4 +175,14 @@ def update_graph(selected_drink):
         title='Daily Sales Quantity by Category'
     )
 
-    return quantity_figure, profit_figure, category_figure, kpi_avg_qty, kpi_avg_profit
+    df_brew_coffee = df_sales[(df_sales['drink_name'] == 'Brew Coffee')]
+    brew_coffee_detail_figure = px.bar(
+        df_brew_coffee,
+        x='transaction_date',
+        y='total_qty',
+        color='drink_detail',
+        labels={'total_qty': 'Quantity', 'transaction_date': 'Date', 'drink_detail': 'Detail'},
+        title='Brew Coffee Detail Amounts'
+    )
+
+    return quantity_figure, profit_figure, category_figure, brew_coffee_detail_figure, kpi_avg_qty, kpi_avg_profit
