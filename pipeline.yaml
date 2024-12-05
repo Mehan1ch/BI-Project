@@ -1,9 +1,9 @@
 executor: parallel
 tasks:
-  - source: ./Extract/Input/extract.py
+  - source: ./ETL/Extract/Input/extract.py
     name: extract
     product:
-      nb: ./Extract/Output/extract.ipynb
+      nb: ./ETL/Extract/Output/extract.ipynb
       data1: '{{extract_path}}/distribution/psd_coffee.csv'
       data2: '{{extract_path}}/distribution/psd_coffee.xls'
       data3: '{{extract_path}}/quality/df_arabica_clean.csv'
@@ -13,199 +13,199 @@ tasks:
       data7: '{{extract_path}}/shop-sales/Coffee Shop Sales.xlsx'
     params:
       extract_path: '{{extract_path}}'
-  - source: ./Transform/Input/Clean/clean_distribution.py
+  - source: ./ETL/Transform/Input/Clean/clean_distribution.py
     name: clean_distribution
     product:
-      nb: ./Transform/Output/Clean/clean_distribution.ipynb
+      nb: ./ETL/Transform/Output/Clean/clean_distribution.ipynb
       data: '{{transform_path}}/Clean/clean_distribution.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Clean/clean_quality.py
+  - source: ./ETL/Transform/Input/Clean/clean_quality.py
     name: clean_quality
     product:
-      nb: ./Transform/Output/Clean/clean_quality.ipynb
+      nb: ./ETL/Transform/Output/Clean/clean_quality.ipynb
       data: '{{transform_path}}/Clean/clean_quality.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Clean/clean_reviews.py
+  - source: ./ETL/Transform/Input/Clean/clean_reviews.py
     name: clean_reviews
     product:
-      nb: ./Transform/Output/Clean/clean_reviews.ipynb
+      nb: ./ETL/Transform/Output/Clean/clean_reviews.ipynb
       data: '{{transform_path}}/Clean/clean_reviews.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Clean/clean_sales.py
+  - source: ./ETL/Transform/Input/Clean/clean_sales.py
     name: clean_sales
     product:
-      nb: ./Transform/Output/Clean/clean_sales.ipynb
+      nb: ./ETL/Transform/Output/Clean/clean_sales.ipynb
       data: '{{transform_path}}/Clean/clean_sales.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Clean/clean_shop_sales.py
+  - source: ./ETL/Transform/Input/Clean/clean_shop_sales.py
     name: clean_shop_sales
     product:
-      nb: ./Transform/Output/Clean/clean_shop_sales.ipynb
+      nb: ./ETL/Transform/Output/Clean/clean_shop_sales.ipynb
       data: '{{transform_path}}/Clean/clean_shop_sales.csv'
     params:
       extract_path: '{{extract_path}}'
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_countries.py
+  - source: ./ETL/Transform/Input/Migrations/create_countries.py
     name: create_countries
     product:
-      nb: ./Transform/Output/Migrations/create_countries.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_countries.ipynb
       data: '{{transform_path}}/Migrations/create_countries.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_blends.py
+  - source: ./ETL/Transform/Input/Migrations/create_blends.py
     name: create_blends
     product:
-      nb: ./Transform/Output/Migrations/create_blends.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_blends.ipynb
       data: '{{transform_path}}/Migrations/create_blends.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_roasters.py
+  - source: ./ETL/Transform/Input/Migrations/create_roasters.py
     name: create_roasters
     product:
-      nb: ./Transform/Output/Migrations/create_roasters.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_roasters.ipynb
       data: '{{transform_path}}/Migrations/create_roasters.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_reviews.py
+  - source: ./ETL/Transform/Input/Migrations/create_reviews.py
     name: create_reviews
     product:
-      nb: ./Transform/Output/Migrations/create_reviews.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_reviews.ipynb
       data: '{{transform_path}}/Migrations/create_reviews.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_distributions.py
+  - source: ./ETL/Transform/Input/Migrations/create_distributions.py
     name: create_distributions
     product:
-      nb: ./Transform/Output/Migrations/create_distributions.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_distributions.ipynb
       data: '{{transform_path}}/Migrations/create_distributions.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_farms.py
+  - source: ./ETL/Transform/Input/Migrations/create_farms.py
     name: create_farms
     product:
-      nb: ./Transform/Output/Migrations/create_farms.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_farms.ipynb
       data: '{{transform_path}}/Migrations/create_farms.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_companies.py
+  - source: ./ETL/Transform/Input/Migrations/create_companies.py
     name: create_companies
     product:
-      nb: ./Transform/Output/Migrations/create_companies.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_companies.ipynb
       data: '{{transform_path}}/Migrations/create_companies.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_varieties.py
+  - source: ./ETL/Transform/Input/Migrations/create_varieties.py
     name: create_varieties
     product:
-      nb: ./Transform/Output/Migrations/create_varieties.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_varieties.ipynb
       data: '{{transform_path}}/Migrations/create_varieties.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_processing_methods.py
+  - source: ./ETL/Transform/Input/Migrations/create_processing_methods.py
     name: create_processing_methods
     product:
-      nb: ./Transform/Output/Migrations/create_processing_methods.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_processing_methods.ipynb
       data: '{{transform_path}}/Migrations/create_processing_methods.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_qualities.py
+  - source: ./ETL/Transform/Input/Migrations/create_qualities.py
     name: create_qualities
     product:
-      nb: ./Transform/Output/Migrations/create_qualities.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_qualities.ipynb
       data: '{{transform_path}}/Migrations/create_qualities.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_drinks.py
+  - source: ./ETL/Transform/Input/Migrations/create_drinks.py
     name: create_drinks
     product:
-      nb: ./Transform/Output/Migrations/create_drinks.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_drinks.ipynb
       data: '{{transform_path}}/Migrations/create_drinks.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Transform/Input/Migrations/create_sales.py
+  - source: ./ETL/Transform/Input/Migrations/create_sales.py
     name: create_sales
     product:
-      nb: ./Transform/Output/Migrations/create_sales.ipynb
+      nb: ./ETL/Transform/Output/Migrations/create_sales.ipynb
       data: '{{transform_path}}/Migrations/create_sales.csv'
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_countries.py
+  - source: ./ETL/Load/Input/load_countries.py
     name: load_countries
     product:
-      nb: ./Load/Output/load_countries.ipynb
+      nb: ./ETL/Load/Output/load_countries.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_roasters.py
+  - source: ./ETL/Load/Input/load_roasters.py
     name: load_roasters
     product:
-      nb: ./Load/Output/load_roasters.ipynb
+      nb: ./ETL/Load/Output/load_roasters.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_blends.py
+  - source: ./ETL/Load/Input/load_blends.py
     name: load_blends
     product:
-      nb: ./Load/Output/load_blends.ipynb
+      nb: ./ETL/Load/Output/load_blends.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_reviews.py
+  - source: ./ETL/Load/Input/load_reviews.py
     name: load_reviews
     product:
-      nb: ./Load/Output/load_reviews.ipynb
+      nb: ./ETL/Load/Output/load_reviews.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_distributions.py
+  - source: ./ETL/Load/Input/load_distributions.py
     name: load_distributions
     product:
-      nb: ./Load/Output/load_distributions.ipynb
+      nb: ./ETL/Load/Output/load_distributions.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_farms.py
+  - source: ./ETL/Load/Input/load_farms.py
     name: load_farms
     product:
-      nb: ./Load/Output/load_farms.ipynb
+      nb: ./ETL/Load/Output/load_farms.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_varieties.py
+  - source: ./ETL/Load/Input/load_varieties.py
     name: load_varieties
     product:
-      nb: ./Load/Output/load_varieties.ipynb
+      nb: ./ETL/Load/Output/load_varieties.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_processing_methods.py
+  - source: ./ETL/Load/Input/load_processing_methods.py
     name: load_processing_methods
     product:
-      nb: ./Load/Output/load_processing_methods.ipynb
+      nb: ./ETL/Load/Output/load_processing_methods.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_companies.py
+  - source: ./ETL/Load/Input/load_companies.py
     name: load_companies
     product:
-      nb: ./Load/Output/load_companies.ipynb
+      nb: ./ETL/Load/Output/load_companies.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_qualities.py
+  - source: ./ETL/Load/Input/load_qualities.py
     name: load_qualities
     product:
-      nb: ./Load/Output/load_qualities.ipynb
+      nb: ./ETL/Load/Output/load_qualities.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_drinks.py
+  - source: ./ETL/Load/Input/load_drinks.py
     name: load_drinks
     product:
-      nb: ./Load/Output/load_drinks.ipynb
+      nb: ./ETL/Load/Output/load_drinks.ipynb
     params:
       transform_path: '{{transform_path}}'
-  - source: ./Load/Input/load_sales.py
+  - source: ./ETL/Load/Input/load_sales.py
     name: load_sales
     product:
-      nb: ./Load/Output/load_sales.ipynb
+      nb: ./ETL/Load/Output/load_sales.ipynb
     params:
       transform_path: '{{transform_path}}'

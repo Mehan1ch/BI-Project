@@ -3,7 +3,9 @@ ploomber
 openpyxl
 pandas
 mysql-connector-python
+sqlalchemy
 plotly
 dash
 dash-mantine-components
+dash-iconify
 python-dotenv
